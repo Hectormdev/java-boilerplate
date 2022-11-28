@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    initialize: true
+    continue-on-error: true
+    url: jdbc:postgresql://localhost/acid-tango
+    username: acid-tango
+    password: password
+    platform: postgres
+    initialization-mode: always
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: create
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: true

@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  database:
+    container_name: database
+    image: postgis/postgis:13-master
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'acid-tango'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'acid-tango'
