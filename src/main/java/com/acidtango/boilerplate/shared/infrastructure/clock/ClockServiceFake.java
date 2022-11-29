@@ -14,6 +14,10 @@ public class ClockServiceFake implements IClockService {
         this.fixedFakeTime = fixedFakeTime;
     }
 
+    public ClockServiceFake(){
+        this.fixedFakeTime = FIXED_FAKE_TIME;
+    }
+
     @Override
     public LocalDateTime getTime() {
         return this.fixedFakeTime;

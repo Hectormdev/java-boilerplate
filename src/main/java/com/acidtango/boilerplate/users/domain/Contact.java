@@ -18,6 +18,10 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
+    public PhoneNumber getPhoneNumber(){
+        return this.phoneNumber;
+    }
+
     public static Contact fromPrimitives(ContactPrimitives contactPrimitives)
             throws InvalidNameError, NotAllowedPhoneError {
         DomainId contactId = DomainId.fromString(contactPrimitives.contactId());
@@ -29,5 +33,15 @@ public class Contact {
 
     public ContactPrimitives toPrimitives(){
         return new ContactPrimitives(contactId.toString(),fullName.toPrimitives(),phoneNumber.toPrimitives());
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(!(o instanceof Contact)) return false;
+        Contact that = (Contact)o;
+        boolean contactId = this.contactId.equals(that.contactId);
+        boolean phoneNumber = this.phoneNumber.equals(that.phoneNumber);
+        boolean fullName = this.fullName.equals(that.fullName);
+        return contactId && phoneNumber && fullName;
     }
 }

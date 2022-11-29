@@ -4,6 +4,7 @@ import com.acidtango.boilerplate.shared.domain.DomainError;
 import com.acidtango.boilerplate.shared.domain.DomainErrorCode;
 import org.springframework.http.HttpStatus;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,12 @@ public class ApiError {
 
     private DomainErrorCode domainErrorCode;
 
-    private LocalDateTime timeStamp;
+    private long timeStamp;
 
     private String message;
 
 
-    public ApiError(HttpStatus httpStatus, LocalDateTime timeStamp,DomainErrorCode domainErrorCode, String message){
+    public ApiError(HttpStatus httpStatus, long timeStamp, DomainErrorCode domainErrorCode, String message){
         this.httpStatus = httpStatus;
         this.timeStamp = timeStamp;
         this.domainErrorCode =domainErrorCode;
@@ -34,14 +35,14 @@ public class ApiError {
     }
 
     public static ApiError create(DomainError domainError){
-        return new ApiError(domainErrorCodeToHttpStatusMap.get(domainError.getCode()),LocalDateTime.now(),domainError.getCode(),domainError.getMessage());
+        return new ApiError(domainErrorCodeToHttpStatusMap.get(domainError.getCode()), Instant.now().getEpochSecond(),domainError.getCode(),domainError.getMessage());
     }
 
     public HttpStatus getHttpStatus(){
         return this.httpStatus;
     }
 
-    public LocalDateTime getTimeStamp(){
+    public long getTimeStamp(){
         return this.timeStamp;
     }
 

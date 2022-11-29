@@ -5,10 +5,8 @@ import com.acidtango.boilerplate.users.domain.IUserRepository;
 import com.acidtango.boilerplate.users.domain.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.springframework.stereotype.Repository;
 
 
-@Repository
 public class UserRepositoryPostgres implements IUserRepository {
 
     @PersistenceContext

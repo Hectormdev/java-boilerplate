@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.liquibase:liquibase-core:4.17.2'
+        classpath "org.liquibase:liquibase-gradle-plugin:2.1.1"
+        classpath 'org.liquibase.ext:liquibase-hibernate5:4.17.2'
+    }
+}
+
+dependencies {
+    implementation 'org.liquibase:liquibase-core'
+    liquibaseRuntime 'org.liquibase:liquibase-core:4.17.2'
+    liquibaseRuntime 'info.picocli:picocli:4.7.0'
+    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.2'
+    liquibaseRuntime 'org.postgresql:postgresql'
+    liquibaseRuntime 'org.liquibase.ext:liquibase-hibernate5:4.17.2'
+    liquibaseRuntime "org.springframework.boot:spring-boot-starter-data-jpa"
+    liquibaseRuntime sourceSets.main.output // replaces liquibaseRuntime files('src/main')
+
+}
+
+
+
+def changeLog = "$projectDir/src/main/resources/databases/migrations/acid-tango.changelog-master.yaml"
+tasks.create('liquibase').configure {
+    dependsOn(jar)
+    doLast {
+        liquibase {
+            activities {
+                mainClass {
+                    referenceUrl 'hibernate:spring:com.acidtango.boilerplate.users.infrastructure.persistence?dialect=org.hibernate.dialect.PostgreSQLDialect'
+                    changeLogFile changeLog
+                    url 'jdbc:postgresql://localhost/acid-tango'
+                    username 'acid-tango'
+                    password 'password'
+                    searchPath "/"
+                }
+            }
+        }
+    }
+}

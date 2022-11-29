@@ -31,20 +31,23 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public void addContact(Contact contact){
-        this.contacts.add(contact);
+    public List<Contact> getContacts(){
+        return this.contacts;
     }
 
-    public static User create(String userId, String name, String surname, String phoneNumber, LocalDateTime createdAt)
+    public static User create(String userId, String name, String surname, String phoneNumber, LocalDateTime createdAt,List<Contact> contacts)
             throws InvalidNameError, NotAllowedPhoneError {
         return new User(
                 DomainId.fromString(userId),
-                FullName.create(name,surname),
+                new FullName(name,surname),
                 PhoneNumber.fromString(phoneNumber),
-                new ArrayList<>(),
+                contacts,
                 createdAt);
     }
 
+    public PhoneNumber getPhoneNumber(){
+        return this.phoneNumber;
+    }
 
     public static User fromPrimitives(UserPrimitives userPrimitives) throws InvalidNameError, NotAllowedPhoneError {
         List<Contact> contacts = new ArrayList<>();
@@ -72,8 +75,14 @@ public class User {
     @Override
     public boolean equals(Object o){
         // TODO: Make a better equals
-        if(o.getClass() != this.getClass()) return false;
-        return ((User) o).userId.equals(this.userId);
+        if(!(o instanceof User)) return false;
+        User that = (User)o;
+        boolean userId = this.userId.equals(that.userId);
+        boolean phoneNumber = this.phoneNumber.equals(that.phoneNumber);
+        boolean fullName = this.fullName.equals(that.fullName);
+        boolean createdAt = this.createdAt == that.createdAt;
+        boolean contacts = this.contacts.equals(that.contacts);
+        return userId & phoneNumber & fullName & createdAt & contacts;
     }
 
     public DomainId getUserId() {

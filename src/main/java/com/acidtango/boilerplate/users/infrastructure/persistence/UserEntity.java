@@ -38,8 +38,8 @@ public class UserEntity {
         userEntity.createdAt = userPrimitives.createdAt();
         userEntity.name = userPrimitives.fullName().name();
         userEntity.surname = userPrimitives.fullName().surname();
-        userEntity.phoneNumber = userPrimitives.phoneNumber().prefix()+userPrimitives.phoneNumber().number();
-        userEntity.contacts = userPrimitives.contacts().stream().map(contactPrimitives -> ContactEntity.fromDomain(userEntity,contactPrimitives)
+        userEntity.phoneNumber = user.getPhoneNumber().toString();
+        userEntity.contacts = user.getContacts().stream().map(contactPrimitives -> ContactEntity.fromDomain(userEntity,contactPrimitives)
         ).toList();
         return userEntity;
     }

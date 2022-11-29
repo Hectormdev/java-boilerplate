@@ -36,4 +36,16 @@ public class PhoneNumber {
         return new PhoneNumberPrimitives(prefix,number);
     }
 
+
+    @Override
+    public boolean equals(Object o){
+        if(!(o instanceof PhoneNumber)) return false;
+        PhoneNumber that = (PhoneNumber) o;
+        return (this.prefix == that.prefix && this.number == that.number);
+    }
+
+    @Override
+    public String toString(){
+        return this.prefix+this.number;
+    }
 }

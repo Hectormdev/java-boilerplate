@@ -1,6 +1,7 @@
 package com.acidtango.boilerplate.users.infrastructure.persistence;
 
 
+import com.acidtango.boilerplate.users.domain.Contact;
 import com.acidtango.boilerplate.users.domain.primitives.ContactPrimitives;
 
 import javax.persistence.*;
@@ -28,12 +29,13 @@ public class ContactEntity {
 
 
 
-    public static ContactEntity fromDomain(UserEntity user, ContactPrimitives contact){
+    public static ContactEntity fromDomain(UserEntity user, Contact contact){
+        ContactPrimitives contactPrimitives = contact.toPrimitives();
         ContactEntity contactEntity = new ContactEntity();
-        contactEntity.contactId = contact.contactId();
-        contactEntity.name = contact.fullName().name();
-        contactEntity.surname = contact.fullName().surname();
-        contactEntity.phoneNumber = contact.phoneNumber().prefix()+contact.phoneNumber().number();
+        contactEntity.contactId = contactPrimitives.contactId();
+        contactEntity.name = contactPrimitives.fullName().name();
+        contactEntity.surname = contactPrimitives.fullName().surname();
+        contactEntity.phoneNumber = contact.getPhoneNumber().toString();
         contactEntity.user = user;
 
         return contactEntity;

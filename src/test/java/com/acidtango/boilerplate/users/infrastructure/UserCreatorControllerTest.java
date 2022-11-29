@@ -1,30 +1,33 @@
 package com.acidtango.boilerplate.users.infrastructure;
 
+import com.acidtango.boilerplate.TestInjectionConfiguration;
+import com.acidtango.boilerplate.UserFixtures;
 import com.acidtango.boilerplate.shared.domain.DomainErrorCode;
+import com.acidtango.boilerplate.users.domain.primitives.ContactPrimitives;
+import com.acidtango.boilerplate.users.infrastructure.rest.dtos.ContactRequestDTO;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CreateUserRequestDTO;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = TestInjectionConfiguration.class)
 public class UserCreatorControllerTest {
 
-    private final String FAKE_NAME = "Pedro";
-    private final String FAKE_SURNAME = "Martín";
-    private final String FAKE_PHONE_NUMBER = "+34666827783";
 
-    @Autowired
-    private TestRestTemplate testRestTemplate;
+    public static final String NAME = UserFixtures.pedroPrimitives.fullName().name();
+    public static final String SURNAME = UserFixtures.pedroPrimitives.fullName().surname();
+    public static final String PHONE_NUMBER =
+            UserFixtures.pedroPrimitives.phoneNumber().prefix() + UserFixtures.pedroPrimitives.phoneNumber().number();
+    public static final List<ContactPrimitives> CONTACTS = UserFixtures.pedroPrimitives.contacts();
 
     @LocalServerPort
     int port;
@@ -36,13 +39,22 @@ public class UserCreatorControllerTest {
                 .basePath("/api/v1")
                 .port(this.port)
                 .contentType(ContentType.JSON)
-                .body(new CreateUserRequestDTO(FAKE_NAME,FAKE_SURNAME,FAKE_PHONE_NUMBER))
+                .body(new CreateUserRequestDTO(
+                        NAME,
+                        SURNAME,
+                        PHONE_NUMBER,
+                        CONTACTS.stream().map(e->new ContactRequestDTO(
+                                e.fullName().name(),
+                                e.fullName().surname(),
+                                e.phoneNumber().prefix()+e.phoneNumber().number()
+                        )).toList()
+                ))
                 .post("/users")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
-                .body("name",equalTo(FAKE_NAME))
-                .body("surname",equalTo(FAKE_SURNAME))
-                .body("phoneNumber",equalTo(FAKE_PHONE_NUMBER))
+                .body("name",equalTo(NAME))
+                .body("surname",equalTo(SURNAME))
+                .body("phoneNumber",equalTo(PHONE_NUMBER))
                 .body("contacts",empty());
     }
 
@@ -53,7 +65,16 @@ public class UserCreatorControllerTest {
                 .basePath("/api/v1")
                 .port(this.port)
                 .contentType(ContentType.JSON)
-                .body(new CreateUserRequestDTO(FAKE_NAME,FAKE_SURNAME,"+301234456"))
+                .body(new CreateUserRequestDTO(
+                        NAME,
+                       SURNAME,
+                        "+301234456",
+                        CONTACTS.stream().map(e->new ContactRequestDTO(
+                                e.fullName().name(),
+                                e.fullName().surname(),
+                                e.phoneNumber().prefix()+e.phoneNumber().number()
+                        )).toList()
+                ))
                 .post("/users")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())

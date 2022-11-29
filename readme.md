@@ -45,8 +45,9 @@ This is a Work in Progress Boilerplate for java.
 - [ ]  Inject from parameters the desired dependencies (for testing with memory or database).
 - [X]  Implement Migrations.
 - [ ]  Validation Error.
-- [ ]  `TimeStamp` in `DomainError` must be a unix.
-- [ ]  `User.equals` is lazy.
-- [ ]  See a way of not having to duplicate fixtures between tests.
+- [X]  `TimeStamp` in `DomainError` must be a unix.
+- [X]  `User.equals` is lazy.
+- [X]  See a way of not having to duplicate fixtures between tests.
 - [ ]  Prepare the app for being able to be deployed.
 - [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.
+- [ ]  Search for a linter

@@ -1,0 +1,9 @@
+dockerCompose {
+    useComposeFiles = ['docker-compose.yml']
+}
+
+tasks.create('initialize').configure {
+    dependsOn('composeDown')
+    dependsOn('composeUp')
+    dependsOn('update').dependsOn('liquibase')
+}

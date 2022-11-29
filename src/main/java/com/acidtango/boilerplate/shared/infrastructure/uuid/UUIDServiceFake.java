@@ -4,14 +4,19 @@ import com.acidtango.boilerplate.shared.domain.IUUIDService;
 
 public class UUIDServiceFake implements IUUIDService {
 
-    private String fixedUUID;
+    private int currentNumber;
+    private final static String INITIAL_UUID = "00000000-0000-0000-0000-0000000000";
 
-    public UUIDServiceFake(String fixedUUID){
-        this.fixedUUID = fixedUUID;
+    public UUIDServiceFake(int currentNumber){
+        this.currentNumber = currentNumber;
+    }
+    public UUIDServiceFake(){
+        this.currentNumber = 0;
     }
 
-    @Override
     public String generateUUID() {
-        return fixedUUID;
+        String uuid = INITIAL_UUID+String.format("%02d",currentNumber);
+        currentNumber++;
+        return uuid;
     }
 }
