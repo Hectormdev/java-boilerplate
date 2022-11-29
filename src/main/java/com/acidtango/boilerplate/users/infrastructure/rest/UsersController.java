@@ -11,8 +11,8 @@ import com.acidtango.boilerplate.users.domain.errors.NotAllowedPhoneError;
 import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CreateUserRequestDTO;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.UserResponseDTO;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
 package com.acidtango.boilerplate.users.infrastructure.rest.dtos;
 
 
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 public record CreateUserRequestDTO(
         @NotBlank

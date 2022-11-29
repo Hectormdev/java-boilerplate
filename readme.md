@@ -12,17 +12,26 @@ This is a Work in Progress Boilerplate for java.
 ## Libraries and versions
 
 - ☕ ️Java `17`
-- 🌱 Springboot ``3.0.0``
-- 🐘 Gradle `7.5.1`
-- ⛵️ Jakarta 
+- 🌱 Spring-boot `2.7.6`
+- 🐘 Gradle `7.5.1` 
 - 🧪 Rest-assured `5.3.0`
  
 
 ## Run
 
 ### Running the App
->1. `docker-compose up`
+>1. `./gradlew initialize`
 >2. `./gradlew bootRun`
+
+### Migration flow
+> See the migration
+>1. ``./gradlew liquibase diff `` 
+>
+> Generate the migration
+>2. ``./gradlew liquibase diffChangelog``
+>
+> Execute migration
+>3. ``./gradlew liquibase update``
 
 ### Running tests (TODO)
 > 1. ...
@@ -34,9 +43,10 @@ This is a Work in Progress Boilerplate for java.
 
 ### TO DO:
 - [ ]  Inject from parameters the desired dependencies (for testing with memory or database).
-- [ ]  Implement Migrations.
+- [X]  Implement Migrations.
 - [ ]  Validation Error.
-- [ ]  Timestamp in domainError must be an unix.
+- [ ]  `TimeStamp` in `DomainError` must be a unix.
 - [ ]  `User.equals` is lazy.
 - [ ]  See a way of not having to duplicate fixtures between tests.
 - [ ]  Prepare the app for being able to be deployed.
+- [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.

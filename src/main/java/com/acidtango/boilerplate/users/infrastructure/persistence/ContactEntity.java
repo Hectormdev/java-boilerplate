@@ -2,7 +2,8 @@ package com.acidtango.boilerplate.users.infrastructure.persistence;
 
 
 import com.acidtango.boilerplate.users.domain.primitives.ContactPrimitives;
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 
 @Entity

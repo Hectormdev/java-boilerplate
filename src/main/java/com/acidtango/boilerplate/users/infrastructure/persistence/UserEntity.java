@@ -2,7 +2,7 @@ package com.acidtango.boilerplate.users.infrastructure.persistence;
 
 import com.acidtango.boilerplate.users.domain.User;
 import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
