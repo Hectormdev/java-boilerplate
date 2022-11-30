@@ -18,9 +18,9 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = TestInjectionConfiguration.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestInjectionConfiguration.class)
 public class UserShowControllerTest {
 
 
@@ -33,22 +33,22 @@ public class UserShowControllerTest {
     int port;
 
     private String createdUserUUID;
-    private final String FAKE_UUID ="29a18c73-2574-4d18-b48b-5e036e423f7b";
+    private final String FAKE_UUID = "29a18c73-2574-4d18-b48b-5e036e423f7b";
 
     @BeforeEach
-    public void createUser(){
+    public void createUser() {
         CreateUserRequestDTO request = new CreateUserRequestDTO(
                 NAME,
                 SURNAME,
                 PHONE_NUMBER,
-                CONTACTS.stream().map(e->new ContactRequestDTO(
+                CONTACTS.stream().map(e -> new ContactRequestDTO(
                         e.fullName().name(),
                         e.fullName().surname(),
-                        e.phoneNumber().prefix()+e.phoneNumber().digits()
+                        e.phoneNumber().prefix() + e.phoneNumber().digits()
                 )).toList()
         );
 
-         createdUserUUID = RestAssured.given()
+        createdUserUUID = RestAssured.given()
                 .basePath("/api/v1")
                 .port(this.port)
                 .contentType(ContentType.JSON)
@@ -60,39 +60,38 @@ public class UserShowControllerTest {
 
     @Test
     @DisplayName("Gets a user correctly")
-    public void getUser()  {
+    public void getUser() {
 
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")
                 .port(this.port)
                 .contentType(ContentType.JSON)
-                .get("/users/"+createdUserUUID)
+                .get("/users/" + createdUserUUID)
                 .then();
 
         response.statusCode(HttpStatus.OK.value());
-        response.body("name",equalTo(NAME));
-        response.body("surname",equalTo(SURNAME));
-        response.body("phoneNumber",equalTo(PHONE_NUMBER));
-        response.body("contacts.size()",equalTo(1));
+        response.body("name", equalTo(NAME));
+        response.body("surname", equalTo(SURNAME));
+        response.body("phoneNumber", equalTo(PHONE_NUMBER));
+        response.body("contacts.size()", equalTo(1));
     }
 
     @Test
     @DisplayName("Fails if user is Not Found")
-    public void userNotFound()  {
+    public void userNotFound() {
 
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")
                 .port(this.port)
                 .contentType(ContentType.JSON)
-                .get("/users/"+FAKE_UUID)
+                .get("/users/" + FAKE_UUID)
                 .then();
 
         response.statusCode(HttpStatus.NOT_FOUND.value());
-        response.body("domainErrorCode",equalTo(DomainErrorCode.USER_NOT_FOUND.toString()));
+        response.body("domainErrorCode", equalTo(DomainErrorCode.USER_NOT_FOUND.toString()));
 
 
     }
-
 
 
 }

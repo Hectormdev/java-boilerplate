@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public class UserRepositoryMemory implements IUserRepository {
 
-    private ArrayList<User> users;
+    private final ArrayList<User> users;
 
-    public UserRepositoryMemory(){
+    public UserRepositoryMemory() {
         this.users = new ArrayList<>();
     }
 
@@ -23,7 +23,7 @@ public class UserRepositoryMemory implements IUserRepository {
     @Override
     public Optional<User> findByUserId(DomainId userId) {
         return this.users.stream()
-                .filter(user-> user.getUserId().equals(userId))
+                .filter(user -> user.getUserId().equals(userId))
                 .findFirst();
     }
 }

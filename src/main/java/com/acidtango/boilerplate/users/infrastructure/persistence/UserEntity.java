@@ -4,8 +4,14 @@ import com.acidtango.boilerplate.users.domain.User;
 import com.acidtango.boilerplate.users.domain.primitives.FullNamePrimitives;
 import com.acidtango.boilerplate.users.domain.primitives.PhoneNumberPrimitives;
 import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
-import javax.persistence.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,11 +35,11 @@ public class UserEntity {
     @Column(name = "phone_number_digits")
     private String phoneNumberDigits;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    public List<ContactEntity> contacts;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ContactEntity> contacts;
 
-    @Column(name="created_at")
-    LocalDateTime createdAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
 
     public static UserEntity fromDomain(User user) {
@@ -45,18 +51,18 @@ public class UserEntity {
         userEntity.surname = userPrimitives.fullName().surname();
         userEntity.phoneNumberPrefix = userPrimitives.phoneNumber().prefix();
         userEntity.phoneNumberDigits = userPrimitives.phoneNumber().digits();
-        userEntity.contacts = user.getContacts().stream().map(contactPrimitives -> ContactEntity.fromDomain(userEntity,contactPrimitives)
+        userEntity.contacts = user.getContacts().stream().map(contactPrimitives -> ContactEntity.fromDomain(userEntity, contactPrimitives)
         ).toList();
         return userEntity;
     }
 
-    public User toDomain(){
+    public User toDomain() {
         UserPrimitives userPrimitives = new UserPrimitives(
-                    this.userId,
-                    new FullNamePrimitives(this.name,this.surname),
-                    new PhoneNumberPrimitives(this.phoneNumberPrefix,this.phoneNumberDigits),
-                    this.createdAt,
-                    this.contacts.stream().map(ContactEntity::toPrimitives).toList());
+                this.userId,
+                new FullNamePrimitives(this.name, this.surname),
+                new PhoneNumberPrimitives(this.phoneNumberPrefix, this.phoneNumberDigits),
+                this.createdAt,
+                this.contacts.stream().map(ContactEntity::toPrimitives).toList());
 
 
         return User.fromPrimitives(userPrimitives);

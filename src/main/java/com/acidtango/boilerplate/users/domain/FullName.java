@@ -3,43 +3,49 @@ package com.acidtango.boilerplate.users.domain;
 import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
 import com.acidtango.boilerplate.users.domain.primitives.FullNamePrimitives;
 
-public class FullName {
-    private final static int MAX_NAME_LENGTH = 144;
+import java.util.Objects;
 
-    private String name;
+public final class FullName {
+    private static final int MAX_NAME_LENGTH = 144;
 
-    private String surname;
+    private final String name;
 
-    private FullName(String name, String surname)  {
+    private final String surname;
+
+    private FullName(String name, String surname) {
         this.name = name;
         this.surname = surname;
     }
 
     public static FullName create(String name, String surname) throws InvalidNameError {
-        if(name.length()+surname.length()>FullName.MAX_NAME_LENGTH ){
+        if (name.length() + surname.length() > FullName.MAX_NAME_LENGTH) {
             throw new InvalidNameError();
         }
-        return new FullName(name,surname);
+        return new FullName(name, surname);
     }
 
-    public static FullName fromPrimitives(FullNamePrimitives fullNamePrimitives)  {
-        return new FullName(fullNamePrimitives.name(),fullNamePrimitives.surname());
+    public static FullName fromPrimitives(FullNamePrimitives fullNamePrimitives) {
+        return new FullName(fullNamePrimitives.name(), fullNamePrimitives.surname());
     }
 
-    public FullNamePrimitives toPrimitives(){
-        return new FullNamePrimitives(this.name,this.surname);
+    public FullNamePrimitives toPrimitives() {
+        return new FullNamePrimitives(this.name, this.surname);
     }
 
-    public String getFullName(){
+    public String getFullName() {
         return name + " " + surname;
     }
 
     @Override
-    public boolean equals(Object o){
-        if(!(o instanceof FullName)) return false;
-        FullName that = (FullName)o;
-        boolean sameName = that.name == this.name;
-        boolean sameSurname = that.surname == this.surname;
+    public boolean equals(Object o) {
+        if (!(o instanceof FullName that)) return false;
+        boolean sameName = that.name.equals(this.name);
+        boolean sameSurname = that.surname.equals(this.surname);
         return sameName && sameSurname;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name, this.surname);
     }
 }

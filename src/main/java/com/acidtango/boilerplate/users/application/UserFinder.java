@@ -15,13 +15,13 @@ public class UserFinder {
     private final IUserRepository userRepository;
 
 
-    public UserFinder(IUserRepository userRepository){
+    public UserFinder(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public User findByUserId(String userId) throws UserNotFoundError {
         Optional<User> user = this.userRepository.findByUserId(DomainId.fromString(userId));
-        if(user.isEmpty()) throw new UserNotFoundError(userId);
+        if (user.isEmpty()) throw new UserNotFoundError(userId);
 
         return user.get();
     }

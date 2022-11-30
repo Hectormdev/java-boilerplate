@@ -13,4 +13,5 @@ public record CreateUserRequestDTO(
         String phoneNumber,
 
         List<ContactRequestDTO> contacts
-){}
+) {
+}

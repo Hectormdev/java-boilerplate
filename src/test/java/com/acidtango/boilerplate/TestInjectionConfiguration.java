@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Primary;
 public class TestInjectionConfiguration {
     @Primary
     @Bean
-    IUserRepository userFakeRepository(){
+    IUserRepository userFakeRepository() {
         return new UserRepositoryMemory();
-    };
+    }
 
     @Primary
     @Bean

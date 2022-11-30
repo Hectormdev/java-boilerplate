@@ -6,7 +6,7 @@ import com.acidtango.boilerplate.users.domain.primitives.ContactPrimitives;
 public record ContactResponseDTO(String userId, String name, String surname, String phoneNumber) {
 
 
-    public static ContactResponseDTO fromDomain(Contact contact){
+    public static ContactResponseDTO fromDomain(Contact contact) {
         ContactPrimitives contactPrimitives = contact.toPrimitives();
         return new ContactResponseDTO(
                 contactPrimitives.contactId(),

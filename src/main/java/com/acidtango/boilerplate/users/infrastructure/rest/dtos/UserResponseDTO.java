@@ -6,10 +6,11 @@ import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record UserResponseDTO(String userId, String name, String surname, String phoneNumber, List<ContactResponseDTO> contacts,
-                              LocalDateTime createdAt){
+public record UserResponseDTO(String userId, String name, String surname, String phoneNumber,
+                              List<ContactResponseDTO> contacts,
+                              LocalDateTime createdAt) {
 
-    public static UserResponseDTO fromDomain(User user){
+    public static UserResponseDTO fromDomain(User user) {
         UserPrimitives userPrimitives = user.toPrimitives();
         return new UserResponseDTO(userPrimitives.userId(),
                 userPrimitives.fullName().name(),

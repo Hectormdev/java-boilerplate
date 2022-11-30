@@ -23,7 +23,6 @@ dependencies {
 }
 
 
-
 def changeLog = "$projectDir/src/main/resources/databases/migrations/acid-tango.changelog-master.yaml"
 tasks.create('liquibase').configure {
     dependsOn(jar)

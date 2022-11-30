@@ -5,12 +5,13 @@ import com.acidtango.boilerplate.shared.domain.DomainId;
 import com.acidtango.boilerplate.users.domain.IUserRepository;
 import com.acidtango.boilerplate.users.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Optional;
 
 public class UserRepositoryPostgres implements IUserRepository {
 
     @Autowired
-    UserRepositoryJPA repository;
+    private UserRepositoryJPA repository;
 
     @Override
     public void save(User user) {
@@ -20,8 +21,8 @@ public class UserRepositoryPostgres implements IUserRepository {
 
     @Override
     public Optional<User> findByUserId(DomainId userId) {
-        Optional<UserEntity> userEntity =  this.repository.findById(userId.toString());
-        if(userEntity.isEmpty()) Optional.empty();
+        Optional<UserEntity> userEntity = this.repository.findById(userId.toString());
+        if (userEntity.isEmpty()) return Optional.empty();
         return Optional.of(userEntity.get().toDomain());
     }
 }

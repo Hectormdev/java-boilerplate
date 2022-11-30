@@ -4,7 +4,7 @@ import com.acidtango.boilerplate.shared.domain.IUUIDService;
 
 import java.util.UUID;
 
-public class UUIDServiceVanilla implements IUUIDService {
+public final class UUIDServiceVanilla implements IUUIDService {
     @Override
     public String generateUUID() {
         return UUID.randomUUID().toString();

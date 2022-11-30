@@ -3,12 +3,17 @@ package com.acidtango.boilerplate.users.application;
 import com.acidtango.boilerplate.shared.domain.DomainId;
 import com.acidtango.boilerplate.shared.domain.IClockService;
 import com.acidtango.boilerplate.shared.domain.IUUIDService;
-import com.acidtango.boilerplate.users.domain.*;
+import com.acidtango.boilerplate.users.domain.Contact;
+import com.acidtango.boilerplate.users.domain.FullName;
+import com.acidtango.boilerplate.users.domain.IUserRepository;
+import com.acidtango.boilerplate.users.domain.PhoneNumber;
+import com.acidtango.boilerplate.users.domain.User;
 import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
 import com.acidtango.boilerplate.users.domain.errors.NotAllowedPhoneError;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.ContactRequestDTO;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CreateUserRequestDTO;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +26,7 @@ public class UserCreator {
     private final IClockService clockService;
 
 
-    public UserCreator(IUserRepository userRepository,IUUIDService uuidService,IClockService clockService){
+    public UserCreator(IUserRepository userRepository, IUUIDService uuidService, IClockService clockService) {
         this.userRepository = userRepository;
         this.uuidService = uuidService;
         this.clockService = clockService;
@@ -53,7 +58,7 @@ public class UserCreator {
         for (ContactRequestDTO requestContact : requestContacts) {
             Contact contact = new Contact(
                     DomainId.fromString(this.uuidService.generateUUID()),
-                    FullName.create(requestContact.name(),requestContact.surname()),
+                    FullName.create(requestContact.name(), requestContact.surname()),
                     PhoneNumber.fromString(requestContact.phoneNumber()));
             contacts.add(contact);
         }

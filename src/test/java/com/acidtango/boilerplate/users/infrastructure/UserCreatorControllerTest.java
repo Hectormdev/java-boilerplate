@@ -17,9 +17,9 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = TestInjectionConfiguration.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestInjectionConfiguration.class)
 public class UserCreatorControllerTest {
 
 
@@ -34,8 +34,8 @@ public class UserCreatorControllerTest {
 
     @Test
     @DisplayName("Creates a new user correctly")
-    public void createsUser()  {
-        CreateUserRequestDTO request = this.buildRequest(NAME,SURNAME,PHONE_NUMBER,CONTACTS);
+    public void createsUser() {
+        CreateUserRequestDTO request = this.buildRequest(NAME, SURNAME, PHONE_NUMBER, CONTACTS);
 
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")
@@ -46,16 +46,16 @@ public class UserCreatorControllerTest {
                 .then();
 
         response.statusCode(HttpStatus.CREATED.value());
-        response.body("name",equalTo(NAME));
-        response.body("surname",equalTo(SURNAME));
-        response.body("phoneNumber",equalTo(PHONE_NUMBER));
-        response.body("contacts.size()",equalTo(1));
+        response.body("name", equalTo(NAME));
+        response.body("surname", equalTo(SURNAME));
+        response.body("phoneNumber", equalTo(PHONE_NUMBER));
+        response.body("contacts.size()", equalTo(1));
     }
 
     @Test
     @DisplayName("Fails if phone is not correct")
-    public void failsForDTO()  {
-        CreateUserRequestDTO request = this.buildRequest(NAME,SURNAME,"+301234456",CONTACTS);
+    public void failsForDTO() {
+        CreateUserRequestDTO request = this.buildRequest(NAME, SURNAME, "+301234456", CONTACTS);
 
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")
@@ -66,20 +66,20 @@ public class UserCreatorControllerTest {
                 .then();
 
         response.statusCode(HttpStatus.BAD_REQUEST.value());
-        response.body("domainErrorCode",equalTo(DomainErrorCode.NOT_ALLOWED_PHONE_ERROR.toString()));
+        response.body("domainErrorCode", equalTo(DomainErrorCode.NOT_ALLOWED_PHONE_ERROR.toString()));
 
 
     }
 
-    private CreateUserRequestDTO buildRequest(String name, String surname, String phoneNumber,List<ContactPrimitives> contacts){
+    private CreateUserRequestDTO buildRequest(String name, String surname, String phoneNumber, List<ContactPrimitives> contacts) {
         return new CreateUserRequestDTO(
                 name,
                 surname,
                 phoneNumber,
-                contacts.stream().map(e->new ContactRequestDTO(
+                contacts.stream().map(e -> new ContactRequestDTO(
                         e.fullName().name(),
                         e.fullName().surname(),
-                        e.phoneNumber().prefix()+e.phoneNumber().digits()
+                        e.phoneNumber().prefix() + e.phoneNumber().digits()
                 )).toList()
         );
     }

@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 public class UserInjectionConfiguration {
 
     @Bean
-    IUserRepository userRepository(){
+    IUserRepository userRepository() {
         return new UserRepositoryPostgres();
-    };
+    }
 
 
 }
