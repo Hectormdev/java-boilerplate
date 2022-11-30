@@ -22,28 +22,32 @@ public class ApiError {
 
     private DomainErrorCode domainErrorCode;
 
-    private long timeStamp;
+    private long timestamp;
 
     private String message;
 
 
-    public ApiError(HttpStatus httpStatus, long timeStamp, DomainErrorCode domainErrorCode, String message){
+    public ApiError(HttpStatus httpStatus, long timestamp, DomainErrorCode domainErrorCode, String message){
         this.httpStatus = httpStatus;
-        this.timeStamp = timeStamp;
+        this.timestamp = timestamp;
         this.domainErrorCode =domainErrorCode;
         this.message = message;
     }
 
-    public static ApiError create(DomainError domainError){
-        return new ApiError(domainErrorCodeToHttpStatusMap.get(domainError.getCode()), Instant.now().getEpochSecond(),domainError.getCode(),domainError.getMessage());
+    public static ApiError create(DomainError domainError,Long timestamp){
+        return new ApiError(domainErrorCodeToHttpStatusMap.get(
+                domainError.getCode()),
+                timestamp,
+                domainError.getCode(),
+                domainError.getMessage());
     }
 
     public HttpStatus getHttpStatus(){
         return this.httpStatus;
     }
 
-    public long getTimeStamp(){
-        return this.timeStamp;
+    public long getTimestamp(){
+        return this.timestamp;
     }
 
     public DomainErrorCode getDomainErrorCode() {

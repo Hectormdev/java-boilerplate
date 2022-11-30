@@ -48,7 +48,7 @@ This is a Work in Progress Boilerplate for java.
 ### TO DO:
 - [ ]  Inject from parameters the desired dependencies (for testing with memory or database).
 - [X]  Implement Migrations.
-- [ ]  Validation Error.
+- [X]  Validation Error.
 - [X]  `TimeStamp` in `DomainError` must be a unix.
 - [X]  `User.equals` is lazy.
 - [X]  See a way of not having to duplicate fixtures between tests.

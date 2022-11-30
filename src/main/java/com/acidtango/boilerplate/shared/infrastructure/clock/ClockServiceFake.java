@@ -4,6 +4,7 @@ import com.acidtango.boilerplate.shared.domain.IClockService;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneOffset;
 
 public class ClockServiceFake implements IClockService {
 
@@ -18,8 +19,15 @@ public class ClockServiceFake implements IClockService {
         this.fixedFakeTime = FIXED_FAKE_TIME;
     }
 
+
+
     @Override
     public LocalDateTime getTime() {
         return this.fixedFakeTime;
+    }
+
+    @Override
+    public long getTimeStamp() {
+        return this.fixedFakeTime.toEpochSecond(ZoneOffset.UTC);
     }
 }
