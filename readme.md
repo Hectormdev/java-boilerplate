@@ -20,8 +20,12 @@ This is a Work in Progress Boilerplate for java.
 ## Run
 
 ### Running the App
->1. `./gradlew initialize`
->2. `./gradlew bootRun`
+> Initialize the database and the service
+>1. `./gradlew bootRun`
+>
+> In order to close the database
+>
+>1.  ``./gradlew composeDown``
 
 ### Migration flow
 > See the migration
@@ -51,3 +55,4 @@ This is a Work in Progress Boilerplate for java.
 - [ ]  Prepare the app for being able to be deployed.
 - [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.
 - [ ]  Search for a linter
+- [ ]  Should the application layer receive the DTO?

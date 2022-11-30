@@ -35,8 +35,9 @@ public class User {
         return this.contacts;
     }
 
-    public static User create(String userId, String name, String surname, String phoneNumber, LocalDateTime createdAt,List<Contact> contacts)
+    public static User create(String userId, String name, String surname, String phoneNumber,List<Contact> contacts, LocalDateTime createdAt)
             throws InvalidNameError, NotAllowedPhoneError {
+        
         return new User(
                 DomainId.fromString(userId),
                 new FullName(name,surname),

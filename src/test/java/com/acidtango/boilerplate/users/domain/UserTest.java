@@ -35,7 +35,7 @@ public class UserTest {
         @Test
         @DisplayName("Gets Created Successfully")
         public void getsCreatedSuccessfully() throws InvalidNameError, NotAllowedPhoneError {
-            User expectedUser = User.create(RANDOM_UUID, FAKE_NAME, FAKE_SURNAME, FAKE_PHONE, FAKE_TIME,FAKE_CONTACTS);
+            User expectedUser = User.create(RANDOM_UUID, FAKE_NAME, FAKE_SURNAME, FAKE_PHONE,FAKE_CONTACTS,FAKE_TIME);
             assertTrue(expectedUser.getUserId().equals(DomainId.fromString(RANDOM_UUID)));
         }
 
@@ -43,7 +43,7 @@ public class UserTest {
         @DisplayName("Throws a invalid Name error if full name is too large")
         public void throwsInvalidNameError() {
             assertThrows(InvalidNameError.class, () -> {
-                User.create(RANDOM_UUID, FAKE_NAME.repeat(100), FAKE_SURNAME, FAKE_PHONE, FAKE_TIME,FAKE_CONTACTS);
+                User.create(RANDOM_UUID, FAKE_NAME.repeat(100), FAKE_SURNAME, FAKE_PHONE,FAKE_CONTACTS,FAKE_TIME);
             });
         }
 
@@ -51,7 +51,7 @@ public class UserTest {
         @DisplayName("Throws an invalid phone number error if phone is not from Spain or Mexico")
         public void throwsInvalidPhoneNumber() {
             assertThrows(NotAllowedPhoneError.class, () -> {
-                User.create(RANDOM_UUID, FAKE_NAME, FAKE_SURNAME, "+33123456789", FAKE_TIME,FAKE_CONTACTS);
+                User.create(RANDOM_UUID, FAKE_NAME, FAKE_SURNAME, "+33123456789",FAKE_CONTACTS,FAKE_TIME);
             });
         }
     };
