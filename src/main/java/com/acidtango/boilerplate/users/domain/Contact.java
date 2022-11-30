@@ -22,8 +22,7 @@ public class Contact {
         return this.phoneNumber;
     }
 
-    public static Contact fromPrimitives(ContactPrimitives contactPrimitives)
-            throws InvalidNameError, NotAllowedPhoneError {
+    public static Contact fromPrimitives(ContactPrimitives contactPrimitives) {
         DomainId contactId = DomainId.fromString(contactPrimitives.contactId());
         FullName fullName = FullName.fromPrimitives(contactPrimitives.fullName());
         PhoneNumber phoneNumber = PhoneNumber.fromPrimitives(contactPrimitives.phoneNumber());

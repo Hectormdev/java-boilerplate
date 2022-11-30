@@ -6,6 +6,6 @@ import com.acidtango.boilerplate.shared.domain.DomainErrorCode;
 public class NotAllowedPhoneError extends DomainError {
 
     public NotAllowedPhoneError() {
-        super(DomainErrorCode.NOT_ALLOWED_PHONE_ERROR, "The phone number that was given is invalid");
+        super(DomainErrorCode.NOT_ALLOWED_PHONE_ERROR, "The phone digits that was given is invalid");
     }
 }

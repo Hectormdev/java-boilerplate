@@ -11,29 +11,29 @@ public class PhoneNumber {
 
     private String prefix;
 
-    private String number;
+    private String digits;
 
 
-    private PhoneNumber(String prefix, String number) throws NotAllowedPhoneError {
-        if (!Arrays.asList(ALLOWED_CODES).contains(prefix)){
-            throw new NotAllowedPhoneError();
-        }
+    private PhoneNumber(String prefix, String digits)  {
         this.prefix = prefix;
-        this.number = number;
+        this.digits = digits;
     }
 
     public static PhoneNumber fromString(String number) throws NotAllowedPhoneError {
         String prefix = number.substring(0,3);
         String phoneNumber = number.substring(3);
+        if (!Arrays.asList(ALLOWED_CODES).contains(prefix)){
+            throw new NotAllowedPhoneError();
+        }
         return new PhoneNumber(prefix,phoneNumber);
     }
 
-    public static PhoneNumber fromPrimitives(PhoneNumberPrimitives phoneNumberPrimitives) throws NotAllowedPhoneError {
-        return new PhoneNumber(phoneNumberPrimitives.prefix(),phoneNumberPrimitives.number());
+    public static PhoneNumber fromPrimitives(PhoneNumberPrimitives phoneNumberPrimitives)  {
+        return new PhoneNumber(phoneNumberPrimitives.prefix(),phoneNumberPrimitives.digits());
     }
 
     public PhoneNumberPrimitives toPrimitives(){
-        return new PhoneNumberPrimitives(prefix,number);
+        return new PhoneNumberPrimitives(prefix, digits);
     }
 
 
@@ -41,11 +41,11 @@ public class PhoneNumber {
     public boolean equals(Object o){
         if(!(o instanceof PhoneNumber)) return false;
         PhoneNumber that = (PhoneNumber) o;
-        return (this.prefix == that.prefix && this.number == that.number);
+        return (this.prefix == that.prefix && this.digits == that.digits);
     }
 
     @Override
     public String toString(){
-        return this.prefix+this.number;
+        return this.prefix+this.digits;
     }
 }

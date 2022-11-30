@@ -64,4 +64,58 @@ databaseChangeLog:
         referencedColumnNames: user_id
         referencedTableName: users
         validate: true
+- changeSet:
+    id: 1669811485428-1
+    author: hector (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: phone_number_digits
+            type: varchar(255)
+        tableName: contacts
+- changeSet:
+    id: 1669811485428-2
+    author: hector (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: phone_number_digits
+            type: varchar(255)
+        tableName: users
+- changeSet:
+    id: 1669811485428-3
+    author: hector (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: phone_number_prefix
+            type: varchar(255)
+        tableName: contacts
+- changeSet:
+    id: 1669811485428-4
+    author: hector (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: phone_number_prefix
+            type: varchar(255)
+        tableName: users
+- changeSet:
+    id: 1669811485428-5
+    author: hector (generated)
+    changes:
+    - dropColumn:
+        columnName: phone_number
+        tableName: contacts
+- changeSet:
+    id: 1669811485428-6
+    author: hector (generated)
+    changes:
+    - dropColumn:
+        columnName: phone_number
+        tableName: users
 

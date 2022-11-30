@@ -53,7 +53,7 @@ public class UserCreator {
         for (ContactRequestDTO requestContact : requestContacts) {
             Contact contact = new Contact(
                     DomainId.fromString(this.uuidService.generateUUID()),
-                    new FullName(requestContact.name(),requestContact.surname()),
+                    FullName.create(requestContact.name(),requestContact.surname()),
                     PhoneNumber.fromString(requestContact.phoneNumber()));
             contacts.add(contact);
         }

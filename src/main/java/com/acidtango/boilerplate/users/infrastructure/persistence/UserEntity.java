@@ -1,6 +1,8 @@
 package com.acidtango.boilerplate.users.infrastructure.persistence;
 
 import com.acidtango.boilerplate.users.domain.User;
+import com.acidtango.boilerplate.users.domain.primitives.FullNamePrimitives;
+import com.acidtango.boilerplate.users.domain.primitives.PhoneNumberPrimitives;
 import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
 import javax.persistence.*;
 
@@ -21,11 +23,14 @@ public class UserEntity {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
+    @Column(name = "phone_number_prefix")
+    private String phoneNumberPrefix;
 
-    @OneToMany(mappedBy = "user")
-    private List<ContactEntity> contacts;
+    @Column(name = "phone_number_digits")
+    private String phoneNumberDigits;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    public List<ContactEntity> contacts;
 
     @Column(name="created_at")
     LocalDateTime createdAt;
@@ -38,9 +43,22 @@ public class UserEntity {
         userEntity.createdAt = userPrimitives.createdAt();
         userEntity.name = userPrimitives.fullName().name();
         userEntity.surname = userPrimitives.fullName().surname();
-        userEntity.phoneNumber = user.getPhoneNumber().toString();
+        userEntity.phoneNumberPrefix = userPrimitives.phoneNumber().prefix();
+        userEntity.phoneNumberDigits = userPrimitives.phoneNumber().digits();
         userEntity.contacts = user.getContacts().stream().map(contactPrimitives -> ContactEntity.fromDomain(userEntity,contactPrimitives)
         ).toList();
         return userEntity;
+    }
+
+    public User toDomain(){
+        UserPrimitives userPrimitives = new UserPrimitives(
+                    this.userId,
+                    new FullNamePrimitives(this.name,this.surname),
+                    new PhoneNumberPrimitives(this.phoneNumberPrefix,this.phoneNumberDigits),
+                    this.createdAt,
+                    this.contacts.stream().map(ContactEntity::toPrimitives).toList());
+
+
+        return User.fromPrimitives(userPrimitives);
     }
 }

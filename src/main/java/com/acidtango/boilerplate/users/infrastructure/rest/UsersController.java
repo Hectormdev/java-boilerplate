@@ -2,9 +2,11 @@ package com.acidtango.boilerplate.users.infrastructure.rest;
 
 
 import com.acidtango.boilerplate.users.application.UserCreator;
+import com.acidtango.boilerplate.users.application.UserFinder;
 import com.acidtango.boilerplate.users.domain.User;
 import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
 import com.acidtango.boilerplate.users.domain.errors.NotAllowedPhoneError;
+import com.acidtango.boilerplate.users.domain.errors.UserNotFoundError;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CreateUserRequestDTO;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.UserResponseDTO;
 import javax.transaction.Transactional;
@@ -22,6 +24,9 @@ public class UsersController {
     @Autowired
     private UserCreator userCreator;
 
+    @Autowired
+    private UserFinder userFinder;
+
 
     @Transactional
     @PostMapping()
@@ -32,4 +37,13 @@ public class UsersController {
         return UserResponseDTO.fromDomain(user);
 
     }
+
+    @Transactional
+    @GetMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponseDTO getUser(@PathVariable("userId") String userId) throws UserNotFoundError {
+      User user = this.userFinder.findByUserId(userId);
+
+      return UserResponseDTO.fromDomain(user);
+    };
 }

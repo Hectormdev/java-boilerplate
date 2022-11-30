@@ -16,6 +16,7 @@ public class ApiError {
     {{
         put(DomainErrorCode.NOT_ALLOWED_PHONE_ERROR, HttpStatus.BAD_REQUEST);
         put(DomainErrorCode.INVALID_USER_NAME, HttpStatus.BAD_REQUEST);
+        put(DomainErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }};
 
     private HttpStatus httpStatus;

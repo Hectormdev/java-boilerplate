@@ -56,3 +56,4 @@ This is a Work in Progress Boilerplate for java.
 - [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.
 - [ ]  Search for a linter
 - [ ]  Should the application layer receive the DTO?
+- [ ]  Liquibase generates a databaseChangeLog sentence in the yaml EVERYTIME (only one is needed)

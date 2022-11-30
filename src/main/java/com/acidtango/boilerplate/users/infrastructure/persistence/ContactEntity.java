@@ -3,6 +3,8 @@ package com.acidtango.boilerplate.users.infrastructure.persistence;
 
 import com.acidtango.boilerplate.users.domain.Contact;
 import com.acidtango.boilerplate.users.domain.primitives.ContactPrimitives;
+import com.acidtango.boilerplate.users.domain.primitives.FullNamePrimitives;
+import com.acidtango.boilerplate.users.domain.primitives.PhoneNumberPrimitives;
 
 import javax.persistence.*;
 
@@ -21,13 +23,23 @@ public class ContactEntity {
     @Column(name="surname")
     private String surname;
 
-    @Column(name="phone_number")
-    private String phoneNumber;
+    @Column(name="phone_number_prefix")
+    private String phoneNumberPrefix;
 
-    @ManyToOne()
+    @Column(name="phone_number_digits")
+    private String phoneNumberDigits;
+
+    @ManyToOne(optional = false)
     private UserEntity user;
 
 
+    public static ContactPrimitives toPrimitives(ContactEntity contactEntity){
+        return new ContactPrimitives(
+                        contactEntity.contactId,
+                        new FullNamePrimitives(contactEntity.name,contactEntity.surname),
+                        new PhoneNumberPrimitives(contactEntity.phoneNumberPrefix,contactEntity.phoneNumberDigits)
+                );
+    }
 
     public static ContactEntity fromDomain(UserEntity user, Contact contact){
         ContactPrimitives contactPrimitives = contact.toPrimitives();
@@ -35,7 +47,8 @@ public class ContactEntity {
         contactEntity.contactId = contactPrimitives.contactId();
         contactEntity.name = contactPrimitives.fullName().name();
         contactEntity.surname = contactPrimitives.fullName().surname();
-        contactEntity.phoneNumber = contact.getPhoneNumber().toString();
+        contactEntity.phoneNumberPrefix = contactPrimitives.phoneNumber().prefix();
+        contactEntity.phoneNumberDigits = contactPrimitives.phoneNumber().digits();
         contactEntity.user = user;
 
         return contactEntity;

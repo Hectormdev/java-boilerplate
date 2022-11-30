@@ -10,15 +10,19 @@ public class FullName {
 
     private String surname;
 
-    public FullName(String name, String surname) throws InvalidNameError {
-        if(name.length()+surname.length()>FullName.MAX_NAME_LENGTH ){
-            throw new InvalidNameError();
-        }
+    private FullName(String name, String surname)  {
         this.name = name;
         this.surname = surname;
     }
 
-    public static FullName fromPrimitives(FullNamePrimitives fullNamePrimitives) throws InvalidNameError {
+    public static FullName create(String name, String surname) throws InvalidNameError {
+        if(name.length()+surname.length()>FullName.MAX_NAME_LENGTH ){
+            throw new InvalidNameError();
+        }
+        return new FullName(name,surname);
+    }
+
+    public static FullName fromPrimitives(FullNamePrimitives fullNamePrimitives)  {
         return new FullName(fullNamePrimitives.name(),fullNamePrimitives.surname());
     }
 

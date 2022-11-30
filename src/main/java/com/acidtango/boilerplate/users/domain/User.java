@@ -37,10 +37,10 @@ public class User {
 
     public static User create(String userId, String name, String surname, String phoneNumber,List<Contact> contacts, LocalDateTime createdAt)
             throws InvalidNameError, NotAllowedPhoneError {
-        
+
         return new User(
                 DomainId.fromString(userId),
-                new FullName(name,surname),
+                FullName.create(name,surname),
                 PhoneNumber.fromString(phoneNumber),
                 contacts,
                 createdAt);
@@ -50,7 +50,7 @@ public class User {
         return this.phoneNumber;
     }
 
-    public static User fromPrimitives(UserPrimitives userPrimitives) throws InvalidNameError, NotAllowedPhoneError {
+    public static User fromPrimitives(UserPrimitives userPrimitives) {
         List<Contact> contacts = new ArrayList<>();
         for (ContactPrimitives contactPrimitives: userPrimitives.contacts()) {
             contacts.add(Contact.fromPrimitives(contactPrimitives));
