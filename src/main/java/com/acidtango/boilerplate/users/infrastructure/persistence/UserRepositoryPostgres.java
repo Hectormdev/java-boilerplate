@@ -24,4 +24,11 @@ public class UserRepositoryPostgres implements IUserRepository {
         if (userEntity.isEmpty()) return Optional.empty();
         return Optional.of(userEntity.get().toDomain());
     }
+
+    @Override
+    public User updateUser(User user) {
+        UserEntity updatedUser = this.repository.save(UserEntity.fromDomain(user));
+        return updatedUser.toDomain();
+
+    }
 }

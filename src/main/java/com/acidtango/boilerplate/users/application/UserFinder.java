@@ -19,7 +19,7 @@ public class UserFinder {
         this.userRepository = userRepository;
     }
 
-    public User findByUserId(String userId) throws UserNotFoundError {
+    public User execute(String userId) throws UserNotFoundError {
         Optional<User> user = this.userRepository.findByUserId(DomainId.fromString(userId));
         if (user.isEmpty()) throw new UserNotFoundError(userId);
 

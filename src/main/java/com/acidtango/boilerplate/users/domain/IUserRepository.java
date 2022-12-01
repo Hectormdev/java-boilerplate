@@ -9,4 +9,6 @@ public interface IUserRepository {
     void save(User user);
 
     Optional<User> findByUserId(DomainId userId);
+
+    User updateUser(User user);
 }

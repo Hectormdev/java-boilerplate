@@ -6,6 +6,7 @@ import com.acidtango.boilerplate.users.domain.User;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class UserRepositoryMemory implements IUserRepository {
 
@@ -25,5 +26,15 @@ public class UserRepositoryMemory implements IUserRepository {
         return this.users.stream()
                 .filter(user -> user.getUserId().equals(userId))
                 .findFirst();
+    }
+
+    @Override
+    public User updateUser(User user) {
+        int index = IntStream.range(0, this.users.size())
+                .filter(i -> this.users.get(i).getUserId().equals(user.getUserId()))
+                .findFirst()
+                .orElse(-1);
+        this.users.add(index, user);
+        return user;
     }
 }

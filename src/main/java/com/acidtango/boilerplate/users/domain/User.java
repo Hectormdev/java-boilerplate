@@ -19,7 +19,7 @@ public final class User {
 
     private final PhoneNumber phoneNumber;
 
-    private final List<Contact> contacts;
+    private List<Contact> contacts;
 
     private final LocalDateTime createdAt;
 
@@ -41,6 +41,10 @@ public final class User {
                 PhoneNumber.fromString(phoneNumber),
                 contacts,
                 createdAt);
+    }
+
+    public void updateContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public static User fromPrimitives(UserPrimitives userPrimitives) {

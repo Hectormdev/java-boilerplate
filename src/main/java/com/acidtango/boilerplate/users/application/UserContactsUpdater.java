@@ -1,7 +1,6 @@
 package com.acidtango.boilerplate.users.application;
 
 import com.acidtango.boilerplate.shared.domain.DomainId;
-import com.acidtango.boilerplate.shared.domain.IClockService;
 import com.acidtango.boilerplate.shared.domain.IUUIDService;
 import com.acidtango.boilerplate.users.domain.Contact;
 import com.acidtango.boilerplate.users.domain.FullName;
@@ -10,45 +9,35 @@ import com.acidtango.boilerplate.users.domain.PhoneNumber;
 import com.acidtango.boilerplate.users.domain.User;
 import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
 import com.acidtango.boilerplate.users.domain.errors.NotAllowedPhoneError;
+import com.acidtango.boilerplate.users.domain.errors.UserNotFoundError;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.ContactRequestDTO;
-import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CreateUserRequestDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
-public class UserCreator {
+public class UserContactsUpdater {
 
     private final IUserRepository userRepository;
+
     private final IUUIDService uuidService;
-    private final IClockService clockService;
 
 
-    public UserCreator(IUserRepository userRepository, IUUIDService uuidService, IClockService clockService) {
+    public UserContactsUpdater(IUserRepository userRepository, IUUIDService uuidService) {
         this.userRepository = userRepository;
         this.uuidService = uuidService;
-        this.clockService = clockService;
     }
 
+    public User execute(String userId, List<ContactRequestDTO> contactUpdateRequestDTO) throws UserNotFoundError, InvalidNameError, NotAllowedPhoneError {
+        Optional<User> retrievedUser = this.userRepository.findByUserId(DomainId.fromString(userId));
+        if (retrievedUser.isEmpty()) throw new UserNotFoundError(userId);
 
-    public User execute(CreateUserRequestDTO request)
-            throws InvalidNameError, NotAllowedPhoneError {
-
-        List<Contact> contacts = this.buildContacts(request.contacts());
-
-        User user = User.create(
-                this.uuidService.generateUUID(),
-                request.name(),
-                request.surname(),
-                request.phoneNumber(),
-                contacts,
-                this.clockService.getTime()
-        );
-
-        this.userRepository.save(user);
-        return user;
+        User user = retrievedUser.get();
+        List<Contact> contacts = this.buildContacts(contactUpdateRequestDTO);
+        user.updateContacts(contacts);
+        return this.userRepository.updateUser(user);
     }
 
 
@@ -64,4 +53,5 @@ public class UserCreator {
         }
         return contacts;
     }
+
 }
