@@ -23,7 +23,7 @@ dependencies {
 }
 
 
-def changeLog = "$projectDir/src/main/resources/databases/migrations/acid-tango.changelog-master.yaml"
+def changeLog = "$projectDir/src/main/resources/databases/migrations/acid-tango.changelog-master.sql"
 tasks.create('liquibase').configure {
     dependsOn(jar)
     doLast {
@@ -32,6 +32,7 @@ tasks.create('liquibase').configure {
                 mainClass {
                     referenceUrl 'hibernate:spring:com.acidtango.boilerplate.users.infrastructure.persistence?dialect=org.hibernate.dialect.PostgreSQLDialect'
                     changeLogFile changeLog
+                    referenceDriver 'liquibase.ext.hibernate.database.connection.HibernateDriver'
                     url 'jdbc:postgresql://localhost/acid-tango'
                     username 'acid-tango'
                     password 'password'

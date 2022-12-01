@@ -39,8 +39,14 @@ This is a Work in Progress Boilerplate for java.
 
 ### Running tests (TODO)
 
-> 1. ...
-> 2. ``./gradlew test``
+> Memory tests
+> 1. `./gradlew testMemory`
+>
+> H2 tests
+> 1. `./gradlew testH2`
+>
+> Database tests
+> 1. `./gradlew testDB`
 
 ### Compile without tests the App
 
@@ -56,13 +62,16 @@ This is a Work in Progress Boilerplate for java.
 - [X]  See a way of not having to duplicate fixtures between tests.
 - [X]  Prepare the app for being able to be deployed.
 - [X]  Search for a linter (checkStyle)
-- [ ]  Liquibase generates a databaseChangeLog sentence in the yaml EVERYTIME (only one is needed)
-- [ ]  Don't initialize jpa with h2 in memory implementation
+- [X]  Liquibase generates a databaseChangeLog sentence in the sql EVERYTIME (only one is needed)
 - [ ]  CI/CD
-- [ ]  Update liquibase to just have one set of changelogs
-- [ ]  Correct teardown of tests
+
+### Known Issues
+
+- [ ]  Should the application layer receive the DTO?
+- [ ]  Teardown of tests not always works as expected
+- [ ]  Memory implementation injects h2 (even though is not used)
 
 ### Questions and roadmap
+
 - [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.
-- [ ]  Should the application layer receive the DTO?
 
