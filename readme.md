@@ -14,17 +14,21 @@ This is a Work in Progress Boilerplate for java.
 - 🌱 Spring-boot `2.7.6`
 - 🐘 Gradle `7.5.1`
 - 🧪 Rest-assured `5.3.0`
+- 𝌏 Liquibase `4.17.2`
+- ✏️ Checkstyle `10.5.0`
 
 ## Run
 
 ### Running the App
 
+> 1. Set Env vars
+>
 > Initialize the database and the service
->1. `./gradlew bootRun`
+> 2. `./gradlew bootRun`
 >
 > In order to close the database
 >
->1. ``./gradlew composeDown``
+> 1. ``./gradlew composeDown``
 
 ### Migration flow
 
@@ -36,8 +40,12 @@ This is a Work in Progress Boilerplate for java.
 >
 > Execute migration
 >3. ``./gradlew liquibase update``
+>
+> ### WARNING
+> Due to a unresolved issue you must remove the line with content `-- liquibase formatted sql` that is generated with
+> each migration
 
-### Running tests (TODO)
+### Running tests
 
 > Memory tests
 > 1. `./gradlew testMemory`
@@ -54,15 +62,6 @@ This is a Work in Progress Boilerplate for java.
 
 ### TO DO:
 
-- [X]  Inject from parameters the desired dependencies (for testing with memory or database).
-- [X]  Implement Migrations.
-- [X]  Validation Error.
-- [X]  `TimeStamp` in `DomainError` must be a unix.
-- [X]  `User.equals` is lazy.
-- [X]  See a way of not having to duplicate fixtures between tests.
-- [X]  Prepare the app for being able to be deployed.
-- [X]  Search for a linter (checkStyle)
-- [X]  Liquibase generates a databaseChangeLog sentence in the sql EVERYTIME (only one is needed)
 - [ ]  CI/CD
 
 ### Known Issues
@@ -73,5 +72,6 @@ This is a Work in Progress Boilerplate for java.
 
 ### Questions and roadmap
 
-- [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.
+- [ ]  Currently, we must use Spring-boot `2.7.3` to be able to be compatible with liquibase.
+  when possible we should upgrade to Spring-boot `3.0.0`
 
