@@ -48,14 +48,19 @@ This is a Work in Progress Boilerplate for java.
 
 ### TO DO:
 
-- [ ]  Inject from parameters the desired dependencies (for testing with memory or database).
+- [X]  Inject from parameters the desired dependencies (for testing with memory or database).
 - [X]  Implement Migrations.
 - [X]  Validation Error.
 - [X]  `TimeStamp` in `DomainError` must be a unix.
 - [X]  `User.equals` is lazy.
 - [X]  See a way of not having to duplicate fixtures between tests.
-- [ ]  Prepare the app for being able to be deployed.
-- [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.
-- [ ]  Search for a linter
-- [ ]  Should the application layer receive the DTO?
+- [X]  Prepare the app for being able to be deployed.
+- [X]  Search for a linter (checkStyle)
 - [ ]  Liquibase generates a databaseChangeLog sentence in the yaml EVERYTIME (only one is needed)
+- [ ]  Don't initialize jpa with h2 in memory implementation
+- [ ]  CI/CD
+
+### Questions and roadmap
+- [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.
+- [ ]  Should the application layer receive the DTO?
+

@@ -16,7 +16,6 @@ public class UserRepositoryPostgres implements IUserRepository {
     @Override
     public void save(User user) {
         this.repository.save(UserEntity.fromDomain(user));
-
     }
 
     @Override

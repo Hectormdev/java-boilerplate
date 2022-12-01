@@ -1,0 +1,5 @@
+test:
+  repository:
+    memory: true
+  clockService: true
+  uuidService: true

@@ -1,0 +1,11 @@
+spring:
+  liquibase:
+    enabled: false
+  profiles:
+    active: deployment
+server:
+  error:
+    include-stacktrace: never
+  servlet:
+    context-path: /api
+
