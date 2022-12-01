@@ -59,6 +59,8 @@ This is a Work in Progress Boilerplate for java.
 - [ ]  Liquibase generates a databaseChangeLog sentence in the yaml EVERYTIME (only one is needed)
 - [ ]  Don't initialize jpa with h2 in memory implementation
 - [ ]  CI/CD
+- [ ]  Update liquibase to just have one set of changelogs
+- [ ]  Correct teardown of tests
 
 ### Questions and roadmap
 - [ ]  Currently, we must use Spring-boot 2.7.3 to be able to be compatible with liquibase.

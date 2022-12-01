@@ -44,6 +44,6 @@ public class Contact {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.contactId.toString(), this.phoneNumber.toString());
+        return Objects.hash(this.contactId.toString());
     }
 }

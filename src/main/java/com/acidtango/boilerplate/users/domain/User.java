@@ -101,4 +101,11 @@ public final class User {
     }
 
 
+    public List<Contact> getCommonContacts(User secondUser) {
+        List<Contact> secondUserContacts = secondUser.getContacts();
+        List<PhoneNumber> secondUserPhoneContacts = secondUserContacts.stream().map(Contact::getPhoneNumber).toList();
+        System.out.println(this.contacts.stream().filter(e -> secondUserPhoneContacts.contains(e.getPhoneNumber())).toList());
+        return this.contacts.stream().filter(e -> secondUserPhoneContacts.contains(e.getPhoneNumber())).toList();
+
+    }
 }

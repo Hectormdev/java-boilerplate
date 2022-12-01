@@ -64,7 +64,7 @@ public class UserTest {
         private User user;
 
         @BeforeEach
-        public void init() throws InvalidNameError, NotAllowedPhoneError {
+        public void init() {
             user = UserFixtures.pedro();
         }
 

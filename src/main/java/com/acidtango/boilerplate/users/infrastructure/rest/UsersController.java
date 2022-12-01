@@ -1,13 +1,16 @@
 package com.acidtango.boilerplate.users.infrastructure.rest;
 
 
+import com.acidtango.boilerplate.users.application.CommonContactFinder;
 import com.acidtango.boilerplate.users.application.UserContactsUpdater;
 import com.acidtango.boilerplate.users.application.UserCreator;
 import com.acidtango.boilerplate.users.application.UserFinder;
+import com.acidtango.boilerplate.users.domain.Contact;
 import com.acidtango.boilerplate.users.domain.User;
 import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
 import com.acidtango.boilerplate.users.domain.errors.NotAllowedPhoneError;
 import com.acidtango.boilerplate.users.domain.errors.UserNotFoundError;
+import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CommonContactResponseDTO;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.ContactRequestDTO;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CreateUserRequestDTO;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.UserResponseDTO;
@@ -38,6 +41,9 @@ public class UsersController {
     private UserFinder userFinder;
 
     @Autowired
+    private CommonContactFinder commonContactFinder;
+
+    @Autowired
     private UserContactsUpdater userContactsUpdater;
 
 
@@ -58,6 +64,16 @@ public class UsersController {
         User user = this.userFinder.execute(userId);
 
         return UserResponseDTO.fromDomain(user);
+    }
+
+    @Transactional
+    @GetMapping("/{firstUserId}/common-contacts/{secondUserId}")
+    @ResponseStatus(HttpStatus.OK)
+    public CommonContactResponseDTO getUser(@PathVariable("firstUserId") String firstUserId, @PathVariable("secondUserId") String secondUserId)
+            throws UserNotFoundError {
+        List<Contact> commonContacts = this.commonContactFinder.execute(firstUserId, secondUserId);
+
+        return CommonContactResponseDTO.fromDomain(commonContacts);
     }
 
     @Transactional

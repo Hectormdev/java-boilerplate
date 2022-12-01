@@ -26,7 +26,22 @@ public class UserFixtures {
                     new PhoneNumberPrimitives("+34", "987654321"))))
     );
 
+    public static final UserPrimitives pabloPrimitives = new UserPrimitives(
+            "1cefdad1-1eba-4d87-85aa-922273a63b68",
+            new FullNamePrimitives("Pablo", "González"),
+            new PhoneNumberPrimitives("+34", "333333333"),
+            LocalDateTime.of(2019, Month.JANUARY, 14, 0, 0),
+            new ArrayList<>(List.of(new ContactPrimitives(
+                    UUID.randomUUID().toString(),
+                    new FullNamePrimitives("Juan", "Herrera"),
+                    new PhoneNumberPrimitives("+34", "777777777"))))
+    );
+
     public static User pedro() {
         return User.fromPrimitives(UserFixtures.pedroPrimitives);
+    }
+
+    public static User pablo() {
+        return User.fromPrimitives(UserFixtures.pabloPrimitives);
     }
 }
