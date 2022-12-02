@@ -1,11 +1,11 @@
 package com.acidtango.boilerplate;
 
-import com.acidtango.boilerplate.shared.domain.IClockService;
-import com.acidtango.boilerplate.shared.domain.IUUIDService;
+import com.acidtango.boilerplate.shared.domain.ClockService;
+import com.acidtango.boilerplate.shared.domain.IDService;
 import com.acidtango.boilerplate.shared.infrastructure.clock.ClockServiceFake;
-import com.acidtango.boilerplate.shared.infrastructure.uuid.UUIDServiceFake;
-import com.acidtango.boilerplate.users.domain.IUserRepository;
-import com.acidtango.boilerplate.users.infrastructure.persistence.UserRepositoryMemory;
+import com.acidtango.boilerplate.shared.infrastructure.uuid.IDServiceFake;
+import com.acidtango.boilerplate.users.domain.UserRepository;
+import com.acidtango.boilerplate.users.infrastructure.persistence.userRepository.UserRepositoryMemory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -15,23 +15,23 @@ import org.springframework.context.annotation.Primary;
 public class TestInjectionConfiguration {
     @Primary
     @Bean
-    @ConditionalOnProperty("test.repository.memory")
-    IUserRepository userFakeRepository() {
-        return new UserRepositoryMemory();
-    }
-
-    @Primary
-    @Bean
     @ConditionalOnProperty("test.clockService")
-    public static IClockService clockFakeService() {
+    public static ClockService clockFakeService() {
         return new ClockServiceFake();
     }
 
     @Primary
     @Bean
     @ConditionalOnProperty("test.uuidService")
-    public static IUUIDService uuidFakeService() {
-        return new UUIDServiceFake();
+    public static IDService uuidFakeService() {
+        return new IDServiceFake();
+    }
+
+    @Primary
+    @Bean
+    @ConditionalOnProperty("test.repository.memory")
+    UserRepository userFakeRepository() {
+        return new UserRepositoryMemory();
     }
 }
 

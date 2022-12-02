@@ -1,13 +1,15 @@
 package com.acidtango.boilerplate.shared.domain;
 
+import com.acidtango.boilerplate.shared.domain.ddd.ValueObject;
+
 import java.util.Objects;
 import java.util.UUID;
 
-public final class DomainId {
+public class DomainId extends ValueObject {
 
     private final UUID domainId;
 
-    private DomainId(UUID domainId) {
+    protected DomainId(UUID domainId) {
         this.domainId = domainId;
     }
 

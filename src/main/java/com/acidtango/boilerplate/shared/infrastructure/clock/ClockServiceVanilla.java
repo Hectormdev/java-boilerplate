@@ -1,11 +1,11 @@
 package com.acidtango.boilerplate.shared.infrastructure.clock;
 
-import com.acidtango.boilerplate.shared.domain.IClockService;
+import com.acidtango.boilerplate.shared.domain.ClockService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-public class ClockServiceVanilla implements IClockService {
+public class ClockServiceVanilla implements ClockService {
 
     @Override
     public LocalDateTime getTime() {

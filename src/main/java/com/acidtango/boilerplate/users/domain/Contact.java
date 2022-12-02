@@ -1,25 +1,25 @@
 package com.acidtango.boilerplate.users.domain;
 
-import com.acidtango.boilerplate.shared.domain.DomainId;
+import com.acidtango.boilerplate.shared.domain.ddd.Entity;
 import com.acidtango.boilerplate.users.domain.primitives.ContactPrimitives;
 
 import java.util.Objects;
 
-public class Contact {
-    private final DomainId contactId;
+public class Contact extends Entity {
+    private final ContactId contactId;
 
     private final FullName fullName;
 
     private final PhoneNumber phoneNumber;
 
-    public Contact(DomainId contactId, FullName fullName, PhoneNumber phoneNumber) {
+    public Contact(ContactId contactId, FullName fullName, PhoneNumber phoneNumber) {
         this.contactId = contactId;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
     }
 
     public static Contact fromPrimitives(ContactPrimitives contactPrimitives) {
-        DomainId contactId = DomainId.fromString(contactPrimitives.contactId());
+        ContactId contactId = ContactId.fromString(contactPrimitives.contactId());
         FullName fullName = FullName.fromPrimitives(contactPrimitives.fullName());
         PhoneNumber phoneNumber = PhoneNumber.fromPrimitives(contactPrimitives.phoneNumber());
         return new Contact(contactId, fullName, phoneNumber);

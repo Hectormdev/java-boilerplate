@@ -4,7 +4,7 @@ import com.acidtango.boilerplate.shared.domain.DomainId;
 
 import java.util.Optional;
 
-public interface IUserRepository {
+public interface UserRepository {
 
     void save(User user);
 

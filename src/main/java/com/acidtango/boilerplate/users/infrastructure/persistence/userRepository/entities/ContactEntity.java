@@ -1,4 +1,4 @@
-package com.acidtango.boilerplate.users.infrastructure.persistence;
+package com.acidtango.boilerplate.users.infrastructure.persistence.userRepository.entities;
 
 
 import com.acidtango.boilerplate.users.domain.Contact;

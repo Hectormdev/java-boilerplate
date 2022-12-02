@@ -1,11 +1,13 @@
 package com.acidtango.boilerplate.users.domain;
 
+import com.acidtango.boilerplate.shared.domain.DomainError;
+import com.acidtango.boilerplate.shared.domain.ddd.ValueObject;
 import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
 import com.acidtango.boilerplate.users.domain.primitives.FullNamePrimitives;
 
 import java.util.Objects;
 
-public final class FullName {
+public final class FullName extends ValueObject {
     private static final int MAX_NAME_LENGTH = 144;
 
     private final String name;
@@ -17,7 +19,7 @@ public final class FullName {
         this.surname = surname;
     }
 
-    public static FullName create(String name, String surname) throws InvalidNameError {
+    public static FullName create(String name, String surname) throws DomainError {
         if (name.length() + surname.length() > FullName.MAX_NAME_LENGTH) {
             throw new InvalidNameError();
         }

@@ -4,13 +4,14 @@ import com.acidtango.boilerplate.shared.domain.DomainError;
 import com.acidtango.boilerplate.shared.domain.DomainErrorCode;
 import org.springframework.http.HttpStatus;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public record ApiError(
         HttpStatus httpStatus,
-        long timestamp,
+        LocalDateTime timestamp,
         DomainErrorCode domainErrorCode,
         String message) {
 
@@ -20,9 +21,8 @@ public record ApiError(
         put(DomainErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }};
 
-    public static ApiError create(DomainError domainError, Long timestamp) {
-        return new ApiError(DOMAIN_ERROR_CODE_HTTP_STATUS_MAP.get(
-                domainError.getCode()),
+    public static ApiError create(DomainError domainError, LocalDateTime timestamp) {
+        return new ApiError(DOMAIN_ERROR_CODE_HTTP_STATUS_MAP.get(domainError.getCode()),
                 timestamp,
                 domainError.getCode(),
                 domainError.getMessage());

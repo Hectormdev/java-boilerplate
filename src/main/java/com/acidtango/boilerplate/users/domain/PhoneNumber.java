@@ -1,12 +1,13 @@
 package com.acidtango.boilerplate.users.domain;
 
+import com.acidtango.boilerplate.shared.domain.ddd.ValueObject;
 import com.acidtango.boilerplate.users.domain.errors.NotAllowedPhoneError;
 import com.acidtango.boilerplate.users.domain.primitives.PhoneNumberPrimitives;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-public final class PhoneNumber {
+public final class PhoneNumber extends ValueObject {
 
     private static final String[] ALLOWED_CODES = {"+34", "+52"};
 

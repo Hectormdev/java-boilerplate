@@ -1,8 +1,8 @@
 package com.acidtango.boilerplate.shared.infrastructure.errors;
 
 
+import com.acidtango.boilerplate.shared.domain.ClockService;
 import com.acidtango.boilerplate.shared.domain.DomainError;
-import com.acidtango.boilerplate.shared.domain.IClockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -22,20 +22,20 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Autowired
-    private IClockService clockService;
+    private ClockService clockService;
 
     @Override
     public final ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException validationError, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         ValidationError error = ValidationError.create(
                 validationError.getFieldErrors().stream().map(FieldError::getField).toList(),
-                this.clockService.getTimeStamp());
+                this.clockService.getTime());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DomainError.class)
     public final ResponseEntity<ApiError> handleDomainException(DomainError domainError) {
-        ApiError apiError = ApiError.create(domainError, this.clockService.getTimeStamp());
+        ApiError apiError = ApiError.create(domainError, this.clockService.getTime());
         return new ResponseEntity<>(apiError, apiError.httpStatus());
     }
 

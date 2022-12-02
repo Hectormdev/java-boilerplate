@@ -10,7 +10,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -24,7 +23,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestInjectionConfiguration.class)
-public class UsersCommonContactsControllerTest {
+public class UsersCommonContactsTest {
 
     private final String COMMON_CONTACT_NAME = "Julio";
     private final List<ContactRequestDTO> COMMON_CONTACTS = new ArrayList<>(
@@ -48,8 +47,7 @@ public class UsersCommonContactsControllerTest {
     }
 
     @Test
-    @DisplayName("Gets common contacts correctly")
-    public void getUser() {
+    public void get_user() {
 
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")
@@ -66,8 +64,7 @@ public class UsersCommonContactsControllerTest {
     }
 
     @Test
-    @DisplayName("Returns an empty array if there are no common contacts")
-    public void getEmptyCommonContacts() {
+    public void empty_array_if_not_common_contacts() {
         String createdUser = this.createUser(UserFixtures.pabloPrimitives, new ArrayList<>());
 
         ValidatableResponse response = RestAssured.given()
@@ -83,8 +80,7 @@ public class UsersCommonContactsControllerTest {
     }
 
     @Test
-    @DisplayName("Fails if user is Not Found")
-    public void userNotFound() {
+    public void fails_if_user_not_found() {
         final String FAKE_UUID = "309b0edd-0748-4e96-b3be-167c646cf095";
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")

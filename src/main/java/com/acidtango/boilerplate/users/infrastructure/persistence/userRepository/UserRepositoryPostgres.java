@@ -1,17 +1,21 @@
-package com.acidtango.boilerplate.users.infrastructure.persistence;
+package com.acidtango.boilerplate.users.infrastructure.persistence.userRepository;
 
 
 import com.acidtango.boilerplate.shared.domain.DomainId;
-import com.acidtango.boilerplate.users.domain.IUserRepository;
 import com.acidtango.boilerplate.users.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.acidtango.boilerplate.users.domain.UserRepository;
+import com.acidtango.boilerplate.users.infrastructure.persistence.userRepository.entities.UserEntity;
 
 import java.util.Optional;
 
-public class UserRepositoryPostgres implements IUserRepository {
+public class UserRepositoryPostgres implements UserRepository {
 
-    @Autowired
-    private UserRepositoryJPA repository;
+
+    private final UserRepositoryJPA repository;
+
+    public UserRepositoryPostgres(UserRepositoryJPA repository) {
+        this.repository = repository;
+    }
 
     @Override
     public void save(User user) {

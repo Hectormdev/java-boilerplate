@@ -1,8 +1,8 @@
 package com.acidtango.boilerplate.users.domain;
 
+import com.acidtango.boilerplate.shared.domain.DomainError;
 import com.acidtango.boilerplate.shared.domain.DomainId;
-import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
-import com.acidtango.boilerplate.users.domain.errors.NotAllowedPhoneError;
+import com.acidtango.boilerplate.shared.domain.ddd.Aggregate;
 import com.acidtango.boilerplate.users.domain.primitives.ContactPrimitives;
 import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
 
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class User {
+public final class User extends Aggregate {
 
-    private final DomainId userId;
+    private final UserId userId;
 
     private final FullName fullName;
 
@@ -24,7 +24,7 @@ public final class User {
     private final LocalDateTime createdAt;
 
 
-    public User(DomainId userId, FullName fullName, PhoneNumber phoneNumber, List<Contact> contacts, LocalDateTime createdAt) {
+    public User(UserId userId, FullName fullName, PhoneNumber phoneNumber, List<Contact> contacts, LocalDateTime createdAt) {
         this.userId = userId;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
@@ -33,10 +33,10 @@ public final class User {
     }
 
     public static User create(String userId, String name, String surname, String phoneNumber, List<Contact> contacts, LocalDateTime createdAt)
-            throws InvalidNameError, NotAllowedPhoneError {
+            throws DomainError {
 
         return new User(
-                DomainId.fromString(userId),
+                UserId.fromString(userId),
                 FullName.create(name, surname),
                 PhoneNumber.fromString(phoneNumber),
                 contacts,
@@ -53,7 +53,7 @@ public final class User {
             contacts.add(Contact.fromPrimitives(contactPrimitives));
         }
 
-        return new User(DomainId.fromString(userPrimitives.userId()),
+        return new User(UserId.fromString(userPrimitives.userId()),
                 FullName.fromPrimitives(userPrimitives.fullName()),
                 PhoneNumber.fromPrimitives(userPrimitives.phoneNumber()),
                 contacts,

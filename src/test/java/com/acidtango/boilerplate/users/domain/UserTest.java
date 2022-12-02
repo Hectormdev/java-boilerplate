@@ -2,6 +2,7 @@ package com.acidtango.boilerplate.users.domain;
 
 
 import com.acidtango.boilerplate.UserFixtures;
+import com.acidtango.boilerplate.shared.domain.DomainError;
 import com.acidtango.boilerplate.shared.domain.DomainId;
 import com.acidtango.boilerplate.shared.infrastructure.clock.ClockServiceFake;
 import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
@@ -35,7 +36,7 @@ public class UserTest {
     class UserConstruction {
         @Test
         @DisplayName("Gets Created Successfully")
-        public void getsCreatedSuccessfully() throws InvalidNameError, NotAllowedPhoneError {
+        public void getsCreatedSuccessfully() throws DomainError {
             User expectedUser = User.create(RANDOM_UUID, FAKE_NAME, FAKE_SURNAME, FAKE_PHONE, FAKE_CONTACTS, FAKE_TIME);
             assertEquals(expectedUser.getUserId(), DomainId.fromString(RANDOM_UUID));
         }

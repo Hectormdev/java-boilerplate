@@ -1,12 +1,12 @@
 package com.acidtango.boilerplate.shared.infrastructure.clock;
 
-import com.acidtango.boilerplate.shared.domain.IClockService;
+import com.acidtango.boilerplate.shared.domain.ClockService;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 
-public class ClockServiceFake implements IClockService {
+public class ClockServiceFake implements ClockService {
 
     public static final LocalDateTime FIXED_FAKE_TIME = LocalDateTime.of(1998, Month.JANUARY, 14, 0, 0);
     private final LocalDateTime fixedFakeTime;

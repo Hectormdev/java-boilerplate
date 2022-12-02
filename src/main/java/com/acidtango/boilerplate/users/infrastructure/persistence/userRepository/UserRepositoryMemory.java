@@ -1,14 +1,14 @@
-package com.acidtango.boilerplate.users.infrastructure.persistence;
+package com.acidtango.boilerplate.users.infrastructure.persistence.userRepository;
 
 import com.acidtango.boilerplate.shared.domain.DomainId;
-import com.acidtango.boilerplate.users.domain.IUserRepository;
 import com.acidtango.boilerplate.users.domain.User;
+import com.acidtango.boilerplate.users.domain.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class UserRepositoryMemory implements IUserRepository {
+public class UserRepositoryMemory implements UserRepository {
 
     private final ArrayList<User> users;
 
