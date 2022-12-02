@@ -1,15 +1,11 @@
 package com.acidtango.boilerplate.users.domain;
 
 
-import com.acidtango.boilerplate.UserFixtures;
 import com.acidtango.boilerplate.shared.domain.DomainError;
 import com.acidtango.boilerplate.shared.domain.DomainId;
 import com.acidtango.boilerplate.shared.infrastructure.clock.ClockServiceFake;
 import com.acidtango.boilerplate.users.domain.errors.InvalidNameError;
 import com.acidtango.boilerplate.users.domain.errors.NotAllowedPhoneError;
-import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -32,63 +28,25 @@ public class UserTest {
 
 
     @Nested
-    @DisplayName("Construction of User")
-    class UserConstruction {
+    class user_construction {
         @Test
-        @DisplayName("Gets Created Successfully")
-        public void getsCreatedSuccessfully() throws DomainError {
+        public void gets_created_successfully() throws DomainError {
             User expectedUser = User.create(RANDOM_UUID, FAKE_NAME, FAKE_SURNAME, FAKE_PHONE, FAKE_CONTACTS, FAKE_TIME);
             assertEquals(expectedUser.getUserId(), DomainId.fromString(RANDOM_UUID));
         }
 
         @Test
-        @DisplayName("Throws a invalid Name error if full name is too large")
-        public void throwsInvalidNameError() {
+        public void throws_invalid_name_error() {
             assertThrows(InvalidNameError.class, () -> {
                 User.create(RANDOM_UUID, FAKE_NAME.repeat(100), FAKE_SURNAME, FAKE_PHONE, FAKE_CONTACTS, FAKE_TIME);
             });
         }
 
         @Test
-        @DisplayName("Throws an invalid phone number error if phone is not from Spain or Mexico")
-        public void throwsInvalidPhoneNumber() {
+        public void throws_invalid_phone_number_error() {
             assertThrows(NotAllowedPhoneError.class, () -> {
                 User.create(RANDOM_UUID, FAKE_NAME, FAKE_SURNAME, "+33123456789", FAKE_CONTACTS, FAKE_TIME);
             });
-        }
-    }
-
-    @Nested
-    @DisplayName("User to Primitives and vice-versa")
-    class UserPrimitivesConversion {
-
-        private User user;
-
-        @BeforeEach
-        public void init() {
-            user = UserFixtures.pedro();
-        }
-
-
-        @Test
-        @DisplayName("converts a user correctly to its primitives")
-        public void convertsToUserPrimitives() {
-            UserPrimitives userPrimitives = user.toPrimitives();
-
-            assertEquals(userPrimitives.userId(), UserFixtures.pedroPrimitives.userId());
-            assertEquals(userPrimitives.fullName(), UserFixtures.pedroPrimitives.fullName());
-            assertEquals(userPrimitives.phoneNumber(), UserFixtures.pedroPrimitives.phoneNumber());
-            assertEquals(userPrimitives.createdAt(), UserFixtures.pedroPrimitives.createdAt());
-            assertEquals(userPrimitives.contacts().size(), 1);
-            assertEquals(userPrimitives.contacts().get(0).fullName().name(), "Pepe");
-        }
-
-        @Test
-        @DisplayName("creates a user correctly from primitives")
-        public void convertsFromUserPrimitives() {
-            User builtUser = User.fromPrimitives(UserFixtures.pedroPrimitives);
-            assertEquals(builtUser, user);
-
         }
     }
 }

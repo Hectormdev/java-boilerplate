@@ -10,7 +10,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -62,8 +61,7 @@ public class UserContactsUpdaterTest {
     }
 
     @Test
-    @DisplayName("Updates a a user correctly")
-    public void getUser() {
+    public void updates_user_correctly() {
 
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")
@@ -80,8 +78,7 @@ public class UserContactsUpdaterTest {
     }
 
     @Test
-    @DisplayName("Fails if user is Not Found")
-    public void userNotFound() {
+    public void fails_if_user_not_found() {
         final String FAKE_UUID = "29a18c73-2574-4d18-b48b-5e036e423f7b";
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")
@@ -96,8 +93,7 @@ public class UserContactsUpdaterTest {
     }
 
     @Test
-    @DisplayName("Fails if phone is not allowed")
-    public void contactPhoneNotValid() {
+    public void fails_if_phone_is_not_valid() {
         final String NOT_VALID_PHONE = "+56123456789";
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api/v1")

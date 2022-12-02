@@ -9,7 +9,6 @@ import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CreateUserReques
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -35,8 +34,7 @@ public class UserCreatorTest {
     int port;
 
     @Test
-    @DisplayName("Creates a new user correctly")
-    public void createsUser() {
+    public void create_new_user() {
         CreateUserRequestDTO request = this.buildRequest(NAME, SURNAME, PHONE_NUMBER, CONTACTS);
 
         ValidatableResponse response = RestAssured.given()
@@ -55,8 +53,7 @@ public class UserCreatorTest {
     }
 
     @Test
-    @DisplayName("Fails if phone is not correct")
-    public void failsForDTO() {
+    public void fails_if_phone_is_not_correct() {
         CreateUserRequestDTO request = this.buildRequest(NAME, SURNAME, "+301234456", CONTACTS);
 
         ValidatableResponse response = RestAssured.given()
