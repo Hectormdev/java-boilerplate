@@ -1,29 +1,22 @@
 package com.acidtango.boilerplate.users.infrastructure;
 
-import com.acidtango.boilerplate.TestInjectionConfiguration;
+import com.acidtango.boilerplate.BaseTestClient;
 import com.acidtango.boilerplate.UserFixtures;
 import com.acidtango.boilerplate.shared.domain.DomainErrorCode;
 import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.ContactRequestDTO;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.CreateUserRequestDTO;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 
-@Transactional
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestInjectionConfiguration.class)
-public class UserContactsUpdaterTest {
+public class UserContactsUpdaterTest extends BaseTestClient {
 
     public static final UserPrimitives PEDRO_PRIMITIVES = UserFixtures.pedroPrimitives;
     private final String FIRST_CONTACT_NAME = "Manuel";
@@ -33,8 +26,7 @@ public class UserContactsUpdaterTest {
                     new ContactRequestDTO(FIRST_CONTACT_NAME, "Martín", "+34123456789"),
                     new ContactRequestDTO(SECOND_CONTACT_NAME, "Pérez", "+52123456789")
             ));
-    @LocalServerPort
-    int port;
+
     private String createdUserUUID;
 
     @BeforeEach
@@ -50,12 +42,9 @@ public class UserContactsUpdaterTest {
                 )).toList()
         );
 
-        createdUserUUID = RestAssured.given()
-                .basePath("/api/v1")
-                .port(this.port)
-                .contentType(ContentType.JSON)
+        createdUserUUID = this.request()
                 .body(request)
-                .post("/users")
+                .post("/v1/users")
                 .then().statusCode(HttpStatus.CREATED.value()).extract().body().path("userId");
 
     }
@@ -63,12 +52,9 @@ public class UserContactsUpdaterTest {
     @Test
     public void updates_user_correctly() {
 
-        ValidatableResponse response = RestAssured.given()
-                .basePath("/api/v1")
-                .port(this.port)
-                .contentType(ContentType.JSON)
+        ValidatableResponse response = this.request()
                 .body(contacts)
-                .put("/users/" + createdUserUUID + "/contacts")
+                .put("/v1/users/" + createdUserUUID + "/contacts")
                 .then();
 
         response.statusCode(HttpStatus.OK.value());
@@ -80,12 +66,9 @@ public class UserContactsUpdaterTest {
     @Test
     public void fails_if_user_not_found() {
         final String FAKE_UUID = "29a18c73-2574-4d18-b48b-5e036e423f7b";
-        ValidatableResponse response = RestAssured.given()
-                .basePath("/api/v1")
-                .port(this.port)
-                .contentType(ContentType.JSON)
+        ValidatableResponse response = this.request()
                 .body(contacts)
-                .put("/users/" + FAKE_UUID + "/contacts")
+                .put("/v1/users/" + FAKE_UUID + "/contacts")
                 .then();
 
         response.statusCode(HttpStatus.NOT_FOUND.value());
@@ -95,16 +78,13 @@ public class UserContactsUpdaterTest {
     @Test
     public void fails_if_phone_is_not_valid() {
         final String NOT_VALID_PHONE = "+56123456789";
-        ValidatableResponse response = RestAssured.given()
-                .basePath("/api/v1")
-                .port(this.port)
-                .contentType(ContentType.JSON)
+        ValidatableResponse response = this.request()
                 .body(contacts.stream().map(e -> new ContactRequestDTO(
                         e.name(),
                         e.surname(),
                         NOT_VALID_PHONE)
                 ))
-                .put("/users/" + createdUserUUID + "/contacts")
+                .put("/v1/users/" + createdUserUUID + "/contacts")
                 .then();
 
         response.statusCode(HttpStatus.BAD_REQUEST.value());
