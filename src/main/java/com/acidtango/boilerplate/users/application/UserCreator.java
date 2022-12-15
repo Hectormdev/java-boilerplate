@@ -12,7 +12,6 @@ import com.acidtango.boilerplate.users.domain.UserId;
 import com.acidtango.boilerplate.users.domain.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,16 +46,12 @@ public class UserCreator {
     }
 
     private List<Contact> buildContacts(List<ContactRequest> requestContacts) {
-        ArrayList<Contact> contacts = new ArrayList<>();
-
-        for (ContactRequest requestContact : requestContacts) {
-            Contact contact = new Contact(
-                    ContactId.fromString(this.iDService.generateID()),
-                    requestContact.fullName,
-                    requestContact.phoneNumber);
-            contacts.add(contact);
-        }
-        return contacts;
+        return requestContacts.stream().map((contact) ->
+                new Contact(
+                        ContactId.fromString(this.iDService.generateID()),
+                        contact.fullName,
+                        contact.phoneNumber)
+        ).toList();
     }
 
     public static final class ContactRequest {

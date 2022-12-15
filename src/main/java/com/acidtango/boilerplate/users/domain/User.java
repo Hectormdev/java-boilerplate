@@ -3,11 +3,9 @@ package com.acidtango.boilerplate.users.domain;
 import com.acidtango.boilerplate.shared.domain.DomainError;
 import com.acidtango.boilerplate.shared.domain.DomainId;
 import com.acidtango.boilerplate.shared.domain.ddd.Aggregate;
-import com.acidtango.boilerplate.users.domain.primitives.ContactPrimitives;
 import com.acidtango.boilerplate.users.domain.primitives.UserPrimitives;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,10 +16,8 @@ public final class User extends Aggregate {
     private final FullName fullName;
 
     private final PhoneNumber phoneNumber;
-
-    private List<Contact> contacts;
-
     private final LocalDateTime createdAt;
+    private List<Contact> contacts;
 
 
     public User(UserId userId, FullName fullName, PhoneNumber phoneNumber, List<Contact> contacts, LocalDateTime createdAt) {
@@ -43,21 +39,16 @@ public final class User extends Aggregate {
                 createdAt);
     }
 
-    public void updateContacts(List<Contact> contacts) {
-        this.contacts = contacts;
-    }
-
     public static User fromPrimitives(UserPrimitives userPrimitives) {
-        List<Contact> contacts = new ArrayList<>();
-        for (ContactPrimitives contactPrimitives : userPrimitives.contacts()) {
-            contacts.add(Contact.fromPrimitives(contactPrimitives));
-        }
-
         return new User(UserId.fromString(userPrimitives.userId()),
                 FullName.fromPrimitives(userPrimitives.fullName()),
                 PhoneNumber.fromPrimitives(userPrimitives.phoneNumber()),
-                contacts,
+                userPrimitives.contacts().stream().map(Contact::fromPrimitives).toList(),
                 userPrimitives.createdAt());
+    }
+
+    public void updateContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public List<Contact> getContacts() {

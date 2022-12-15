@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,10 +52,15 @@ public class UsersController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDTO createUser(@Valid @RequestBody CreateUserRequestDTO createUserRequestDTO)
             throws DomainError {
-        List<UserCreator.ContactRequest> contacts = new ArrayList<>();
-        for (ContactRequestDTO contact : createUserRequestDTO.contacts()) {
-            contacts.add(new UserCreator.ContactRequest(contact.name(), contact.surname(), contact.phoneNumber()));
-        }
+
+        List<UserCreator.ContactRequest> contacts = createUserRequestDTO.contacts()
+                .stream().map(
+                        (contact) -> new UserCreator.ContactRequest(
+                                contact.name(),
+                                contact.surname(),
+                                contact.phoneNumber()
+                        )
+                ).toList();
 
         User user = this.userCreator.execute(
                 createUserRequestDTO.name(),

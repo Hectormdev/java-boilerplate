@@ -12,7 +12,6 @@ import com.acidtango.boilerplate.users.domain.UserRepository;
 import com.acidtango.boilerplate.users.infrastructure.rest.dtos.ContactRequestDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,16 +42,13 @@ public class UserContactsUpdater {
 
 
     private List<Contact> buildContacts(List<ContactRequestDTO> requestContacts) throws DomainError {
-        ArrayList<Contact> contacts = new ArrayList<>();
-
-        for (ContactRequestDTO requestContact : requestContacts) {
-            Contact contact = new Contact(
-                    ContactId.fromString(this.iDService.generateID()),
-                    FullName.create(requestContact.name(), requestContact.surname()),
-                    PhoneNumber.fromString(requestContact.phoneNumber()));
-            contacts.add(contact);
-        }
-        return contacts;
+        return requestContacts.stream().map((contact) ->
+                new Contact(
+                        ContactId.fromString(this.iDService.generateID()),
+                        FullName.create(contact.name(), contact.surname()),
+                        PhoneNumber.fromString(contact.phoneNumber())
+                )
+        ).toList();
     }
 
 }
