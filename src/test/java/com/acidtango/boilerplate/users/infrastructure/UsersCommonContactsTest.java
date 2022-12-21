@@ -64,6 +64,7 @@ public class UsersCommonContactsTest extends BaseTestClient {
 
     @Test
     public void fails_if_user_not_found() {
+
         final String FAKE_UUID = "309b0edd-0748-4e96-b3be-167c646cf095";
         ValidatableResponse response = this.request()
                 .get("/v1/users/" + firstCreatedUserUUID + "/common-contacts/" + FAKE_UUID)
